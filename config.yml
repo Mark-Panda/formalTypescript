@@ -1,0 +1,6 @@
+# 基本配置
+baseconfig:
+  # 是否是https请求
+  EncryptionRequest: false
+  # 启动端口
+  port: 7001
