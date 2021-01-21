@@ -4,3 +4,17 @@ baseconfig:
   EncryptionRequest: false
   # 启动端口
   port: 7001
+
+# 数据库连接信息
+database:
+  type: "mysql"
+  host: "localhost"
+  port: 3306
+  username: "root"
+  password: "prisma"
+  database: "typescript"
+  synchronize: true
+  logging: false
+  #启用缓存
+  cache: true
+  entities: [ "./schema/**/*.ts" ]

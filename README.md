@@ -22,6 +22,8 @@
 "dev:build": "npx tsc -w",\
 "serve": "concurrently npm:dev:*"
 
+
+
 ### 初始化布局可以启动后修改成自己的项目模式
 
 ### ESlint配置 vscode下
@@ -80,3 +82,17 @@ module.exports = {
   },
 ```
 5. 在ts文件中保存测试，点击小灯牌允许生效。
+
+### ORM使用prisma
+
+选择prisma的原因,模型构造可以直接在一个文件中构造，生成统一的连接客户端客户端,若想使用GraphQL还可以完美兼容
+
+1. 更新模型到数据库 `npx prisma migrate dev --schema=./schema/schema.prisma -n local --preview-feature`
+2. 生成client客户端 `npx prisma generate --schema=./schema/schema.prisma`
+
+### 当前项目直接使用执行
+
+1. npm i
+2. npm run migrate
+3. npm run generate
+4. npm run dev
