@@ -7,7 +7,6 @@ const sysConfig = `${rootPath}/config.yml`;
 const sysInfo: any = yaml.load(fs.readFileSync(sysConfig, 'utf8'));
 const Config = {
     baseconfig: sysInfo.baseconfig,
-    database: sysInfo.database,
     rootPath,
     version: '1.0',
     host: process.env.APP_HOST || '127.0.0.1',
