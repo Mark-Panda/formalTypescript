@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as winston from 'winston';
 
-import app from '../../config/config';
+import conf from '../../config/config';
 
-const { level, dir: logDir } = app.logging;
+const { level, dir: logDir } = conf.logging;
 
 export class Logger {
 
@@ -43,7 +43,7 @@ export class Logger {
         const myFormat = winston.format.printf(info => {
             return `${info.timestamp} ${info.level}: ${info.message}`;
         });
-        if (app.environment !== 'test') {
+        if (conf.environment !== 'test') {
             this.transports.push(new winston.transports.Console({
                 format: winston.format.combine(
                     winston.format.timestamp(),
