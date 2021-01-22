@@ -15,7 +15,7 @@
 
 ### 当前项目直接使用执行
 
-1. npm i
-2. npm run migrate
-3. npm run generate
-4. npm run dev
+1. `npm install`        安装node_modules包
+2. `npm run migrate`    模型数据同步到数据库中
+3. `npm run generate`   生成client客户端用于与数据库交互
+4. `npm run dev`        启动服务
