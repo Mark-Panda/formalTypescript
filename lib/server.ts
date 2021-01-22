@@ -1,5 +1,5 @@
 
 import { App } from './app';
 
-new App().setupDbAndServer();
+new App().startServer();
 

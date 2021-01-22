@@ -47,19 +47,14 @@ export class App {
         this.app.set('view engine', 'ejs');
     }
 
-    //数据库连接并启动服务
-    setupDbAndServer = async () => {
-        await this.startServer();
-    }
-
-    startServer(): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            this.app.listen(this.Config.baseconfig.port, () => {
-                this.logger.info(`Server started at http://${this.Config.host}:${this.Config.baseconfig.port}`);
-                resolve(true);
-            });
+    //启动服务
+    startServer = () => {
+        this.app.listen(this.Config.baseconfig.port, () => {
+            this.logger.info(`Server started at http://${this.Config.host}:${this.Config.baseconfig.port}`);
         });
     }
+
+    
 }
 
 
