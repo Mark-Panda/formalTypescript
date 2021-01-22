@@ -38,6 +38,8 @@ export class AuthHandler {
         return new JWTStrategy(this.jwtOptions, async (jwt_payload, next) => {
 
             try {
+                console.log('开始jwt验证');
+                
                 const user = await this.prisma.user.findUnique({where:{email:jwt_payload.email}}); // todo: change to uuid ?
                 // if user not found for this id
                 if (!user) {

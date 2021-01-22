@@ -2,6 +2,7 @@ module.exports = {
     'parser': '@typescript-eslint/parser',
     'plugins': ['@typescript-eslint'],
     'rules': {
+        'space-before-function-paren': 0,
         'no-var': 'error', // 不能使用var声明变量
         'no-extra-semi': 'error',
         '@typescript-eslint/indent': ['error', 4],

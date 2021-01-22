@@ -5,6 +5,7 @@
     "scripts": {
         "migrate": "npx prisma migrate dev --schema=./schema/schema.prisma -n local --preview-feature",
         "generate": "npx prisma generate --schema=./schema/schema.prisma",
+        "format": "npx prisma format --schema=./schema/schema.prisma",
         "dev": "nodemon --watch './' -e ts --exec 'ts-node' ./lib/server.ts"
     },
     "nodemonConfig": {

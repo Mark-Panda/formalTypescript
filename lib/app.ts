@@ -34,7 +34,7 @@ export class App {
     constructor() {
         this.logger = new Logger(__filename);
         this.config();
-        this.routePrv.routes(this.app, this.prisma); 
+        this.routePrv.routes(this.app, this.prisma, this.logger); 
     }
 
     //配置中间件

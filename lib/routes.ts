@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { userReg } from '../resolver/user.service';
+import { Logger, ILogger } from '../utils/logger';
+import { userLogin, userRegister, userLogout } from '../resolver/user.service';
 import { AuthHandler } from '../middleware/authHandler';
+import Config from '../config/config';
 
 export class Routes { 
     auth = new AuthHandler();
     
-    public routes(app: any, prisma: any): void {   
+    public routes(app: any, prisma: any, logger: any): void {   
 
         
         app.get('/',async (req: Request, res: Response) => {
-            console.log('REQ', await prisma.user.findMany());
-            res.send('Hello Typescript');
+            res.render('index', { title: Config.baseconfig.title });
         });
 
         /**
@@ -18,8 +19,6 @@ export class Routes {
          */
         app.use(this.auth.initialize());
         app.post('/checkJwtToken', this.auth.authenticate(),async (req: Request, res: Response) => {
-            console.log('REQ', await prisma.user.findMany());
-            
             res.json({
                 code: 200,
                 msg: 'success'
@@ -41,8 +40,25 @@ export class Routes {
             });
         });
 
-        app.get('/text', async (req: Request, res: Response) => {
-            await userReg(req, res, prisma);
+        /**
+         * 注册
+         */
+        app.post('/register', async (req: Request, res: Response) => {
+            await userRegister(req, res, prisma, logger);
+        });
+
+        /**
+         * 登录
+         */
+        app.post('/login',this.auth.authenticate(), async (req: Request, res: Response) => {
+            await userLogin(req, res, prisma, logger);
+        });
+
+        /**
+         * 退出登录
+         */
+        app.post('/logout',this.auth.authenticate(), async (req: Request, res: Response) => {
+            await userLogout(req, res, prisma, logger);
         });
         
     }

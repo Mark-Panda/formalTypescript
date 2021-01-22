@@ -4,6 +4,7 @@ baseconfig:
   EncryptionRequest: false
   # 启动端口
   port: 7001
+  title: "苏喂苏喂苏喂"
 
 # 数据库连接信息
 database:
