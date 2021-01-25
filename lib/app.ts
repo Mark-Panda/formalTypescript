@@ -5,6 +5,7 @@ import Config from '../config/config';
 import { Routes } from './routes';
 import { Logger, ILogger } from '../utils/logger';
 import { PrismaClient } from '../controller/mysqlClient/client';
+import { CacheClient } from '../controller/cacheClient';
 
 
 export class App {
@@ -13,7 +14,8 @@ export class App {
     public app: express.Application = express();
     //路由
     public routePrv: Routes = new Routes();
-    prisma = new PrismaClient({
+    //连接数据库
+    public prisma = new PrismaClient({
         log: [
             {
                 emit: 'stdout',
@@ -30,11 +32,14 @@ export class App {
         ],
         errorFormat: 'pretty'
     });
+    //连接Redis
+    public cacheClient = new CacheClient().client('client');
 
     constructor() {
         this.logger = new Logger(__filename);
         this.config();
-        this.routePrv.routes(this.app, this.prisma, this.logger); 
+        this.routePrv.routes(this.app, this.prisma, this.logger, this.cacheClient); 
+        
     }
 
     //配置中间件

@@ -7,11 +7,29 @@ import Config from '../config/config';
 export class Routes { 
     auth = new AuthHandler();
     
-    public routes(app: any, prisma: any, logger: any): void {   
+    public routes(app: any, prisma: any, logger: ILogger, cache: any): void {   
 
         
         app.get('/',async (req: Request, res: Response) => {
             res.render('index', { title: Config.baseconfig.title });
+        });
+
+        /**
+         * token存放于Redis的生成token的接口
+         */
+        app.post('/getToken', this.auth.getToken(cache), async (req: Request, res: Response) => {
+            res.json({
+                msg:req.body
+            });
+        });
+
+        /**
+         * token存放于Redis的检验token的接口
+         */
+        app.post('/checkToken', this.auth.checkToken(cache), async (req: Request, res: Response) => {
+            res.json({
+                msg: req.body
+            });
         });
 
         /**
@@ -29,15 +47,46 @@ export class Routes {
          * 生成token
          */
         app.post('/takeToken', async (req: Request, res: Response) => {
-            
-            console.log('REQ', prisma.user);
+            logger.info('Prisma操作方法', prisma.user);
             const user = await prisma.user.findUnique({where:{email:req.body.email}});
             const token = this.auth.generateToken(user);
-            console.log('token', token);
+            logger.info('token', token);
             res.json({
                 code: 200,
                 msg: token
             });
+        });
+
+
+        /**
+         * 解密token
+         */
+        app.post('/decodeToken', async (req: Request, res: Response) => {
+            try {
+                const token = req.headers.authorization?.substring('Bearer '.length).trim();
+                let tokenDecode = {};
+                if (token) {
+                    tokenDecode = await this.auth.decodeToken(token);
+                    console.log('redis', await cache.existsAsync('ssss'));
+                }
+                res.json({
+                    code: 200,
+                    msg: tokenDecode
+                });
+            } catch (error) {
+                logger.error('异常信息', error);
+                if (error === 'jwt expired') {
+                    return res.json({
+                        code: 200,
+                        msg: 'token已过期,请重新申请token!'
+                    });
+                }
+                res.json({
+                    code: 200,
+                    msg: 'token验证失败'
+                });
+            }
+            
         });
 
         /**
