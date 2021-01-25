@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import * as HttpStatus from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 import { ApiResponseError, ApiResponseSuccess } from '../config/ApiResponse';
+import { PrismaClient } from '../controller/mysqlClient/client';
+import { ILogger } from '../utils/logger';
 
 /**
  * 
@@ -10,7 +12,7 @@ import { ApiResponseError, ApiResponseSuccess } from '../config/ApiResponse';
  * @param prisma prisma客户端,与数据库通信
  * @param logger 日志记录
  */
-const userLogin = async (req: Request, res: Response, prisma: any, logger: any) => {
+const userLogin = async (req: Request, res: Response, prisma: PrismaClient, logger: ILogger) => {
     try {
         logger.info('登录验证');
         const result = await prisma.user.update({where:{email:req.body.email},data:{isOnline: req.body.isOnline}});
@@ -37,7 +39,7 @@ const userLogin = async (req: Request, res: Response, prisma: any, logger: any) 
  * @param prisma prisma客户端,与数据库通信
  * @param logger 日志记录
  */
-const userLogout = async (req: Request, res: Response, prisma: any, logger: any) => {
+const userLogout = async (req: Request, res: Response, prisma: PrismaClient, logger: ILogger) => {
     try {
         logger.info('注销登录');
         const result = await prisma.user.update({where:{email:req.body.email},data:{isOnline: req.body.isOnline}});
@@ -64,7 +66,7 @@ const userLogout = async (req: Request, res: Response, prisma: any, logger: any)
  * @param prisma prisma客户端,与数据库通信
  * @param logger 日志记录
  */
-const userRegister = async (req: Request,res: Response, prisma: any, logger: any) => {
+const userRegister = async (req: Request,res: Response, prisma: PrismaClient, logger: ILogger) => {
     try {
         
         logger.info('userInfo', req.body);

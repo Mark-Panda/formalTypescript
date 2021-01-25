@@ -4,13 +4,14 @@ import { userLogin, userRegister, userLogout } from '../resolver/user.service';
 import { AuthHandler } from '../middleware/authHandler';
 import Config from '../config/config';
 
+import { PrismaClient } from '../controller/mysqlClient/client';
 export class Routes { 
     auth = new AuthHandler();
     
-    public routes(app: any, prisma: any, logger: ILogger, cache: any): void {   
+    public routes(app: any, prisma: PrismaClient, logger: ILogger, cache: any): void {   
 
         
-        app.get('/',async (req: Request, res: Response) => {
+        app.get('/', async (req: Request, res: Response) => {
             res.render('index', { title: Config.baseconfig.title });
         });
 
@@ -47,7 +48,7 @@ export class Routes {
          * 生成token
          */
         app.post('/takeToken', async (req: Request, res: Response) => {
-            logger.info('Prisma操作方法', prisma.user);
+            logger.info('Prisma操作方法', prisma);
             const user = await prisma.user.findUnique({where:{email:req.body.email}});
             const token = this.auth.generateToken(user);
             logger.info('token', token);
