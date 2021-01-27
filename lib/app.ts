@@ -7,6 +7,8 @@ import { Logger, ILogger } from '../utils/logger';
 import { PrismaClient } from '../controller/mysqlClient/client';
 import { CacheClient } from '../controller/cacheClient';
 
+import { Producer } from '../rabbitMQ/product';
+
 
 export class App {
     Config = Config;
@@ -34,11 +36,14 @@ export class App {
     });
     //连接Redis
     public cacheClient = new CacheClient().client('client');
+    channel: Producer;
 
     constructor() {
         this.logger = new Logger(__filename);
+        //初始化MQ连接
+        this.channel = new Producer();
         this.config();
-        this.routePrv.routes(this.app, this.prisma, this.logger, this.cacheClient); 
+        this.routePrv.routes(this.app, this.prisma, this.logger, this.cacheClient, this.channel); 
         
     }
 

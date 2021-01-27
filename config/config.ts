@@ -8,6 +8,9 @@ const sysInfo: any = yaml.load(fs.readFileSync(sysConfig, 'utf8'));
 const Config = {
     baseconfig: sysInfo.baseconfig,
     cacheConfig: sysInfo.cache,
+    rabbitMQConfig: {
+        url: 'amqp://' + sysInfo.amqp.host+ ':' + sysInfo.amqp.port
+    },
     rootPath,
     version: '1.0',
     host: process.env.APP_HOST || '127.0.0.1',

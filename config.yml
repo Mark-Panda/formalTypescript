@@ -14,3 +14,8 @@ cache:
   db: 1
   # 一天的秒数
   ttl: 86400
+
+# rabbitMQ
+amqp:
+  host: localhost
+  port: 5672

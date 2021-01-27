@@ -8,10 +8,11 @@ import { PrismaClient } from '../controller/mysqlClient/client';
 export class Routes { 
     auth = new AuthHandler();
     
-    public routes(app: any, prisma: PrismaClient, logger: ILogger, cache: any): void {   
+    public routes(app: any, prisma: PrismaClient, logger: ILogger, cache: any, channel: any): void {   
 
         
         app.get('/', async (req: Request, res: Response) => {
+            await channel.publishMsg({ title: '测试队列'}, 60);
             res.render('index', { title: Config.baseconfig.title });
         });
 
