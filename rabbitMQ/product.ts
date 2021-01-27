@@ -1,6 +1,7 @@
 import amqp from 'amqplib';
 import { Consumer } from './consumer';
 import Config from '../config/config';
+import { Logger, ILogger } from '../utils/logger';
  
 /**
  * 生产者
@@ -8,12 +9,13 @@ import Config from '../config/config';
 export class Producer {
     channel: Promise<amqp.Channel>;
     consumer: () => Promise<void>;
+    logger: ILogger;
 
     constructor() {
+        this.logger = new Logger(__filename);
         this.channel = this.init();
         //初始化消费者
         this.consumer = new Consumer().consumer;
-        
     }
 
     /**
@@ -33,7 +35,7 @@ export class Producer {
      * @param num 
      */
     publishMsg = async (msgObj: Object, time: number) => {
-        console.log('生产者消息：', msgObj);
+        this.logger.info('生产者消息：', msgObj);
         const timedTaskExchange = 'timedTaskEx';  //交换器
         const timedTaskQueue = 'timedTaskQu';     //生产者发送的队列
         const timedTaskExchangeDLX = 'timedTaskExDLX';   //死信队列交换器
