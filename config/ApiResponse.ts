@@ -1,6 +1,6 @@
 interface ApiResponseError {
     code: number;
-    errorObj?: string | object;
+    errorObj?: string | object | any;
     errorsArray?: any[];
 }
 

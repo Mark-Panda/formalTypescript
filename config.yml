@@ -3,7 +3,7 @@ baseconfig:
   # 是否是https请求
   EncryptionRequest: false
   # 启动端口
-  port: 7001
+  port: '7001'
   title: "TypeScript"
 
 # Redis
