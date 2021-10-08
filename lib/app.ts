@@ -10,6 +10,7 @@ import { Logger, ILogger } from '../utils/logger';
 import { PrismaClient } from '../controller/mysqlClient/client';
 import { CacheClient } from '../controller/cacheClient';
 import { Producer } from '../rabbitMQ/product';
+import { limitFunc } from '../middleware/prelimitReq';
 
 const port = normalizePort(process.env.PORT || Config.baseconfig.port);
 const logger: ILogger = new Logger(__filename);
@@ -64,6 +65,8 @@ export class App {
         this.app.use(express.static('public'));
         this.app.set('views', path.join(Config.rootPath, 'views'));
         this.app.set('view engine', 'ejs');
+        //预热桶限流
+        this.app.use(limitFunc(this.cacheClient));
     }
 
     //启动服务

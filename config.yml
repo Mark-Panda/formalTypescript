@@ -5,7 +5,12 @@ baseconfig:
   # 启动端口
   port: '7001'
   title: "TypeScript"
-
+  #限流参数
+  limitRequest:
+    # 桶的流速，单位毫秒，桶内数量的流失速度
+    rate: 1000
+    # 桶的容量
+    capacity: 5
 # Redis
 cache:
   host: localhost
@@ -19,3 +24,4 @@ cache:
 amqp:
   host: localhost
   port: 5672
+
