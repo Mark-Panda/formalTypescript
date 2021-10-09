@@ -1,7 +1,7 @@
 import amqp from 'amqplib';
 import { Consumer } from './consumer';
-import Config from '../config/config';
-import { Logger, ILogger } from '../utils/logger';
+import Config from '../../config/config';
+import { Logger, ILogger } from '../../utils/logger';
  
 /**
  * 生产者

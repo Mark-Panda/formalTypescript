@@ -9,7 +9,7 @@ import { SocketRoutes } from './socketRoute';
 import { Logger, ILogger } from '../utils/logger';
 import { PrismaClient } from '../controller/mysqlClient/client';
 import { CacheClient } from '../controller/cacheClient';
-import { Producer } from '../rabbitMQ/product';
+import { Producer } from '../controller/rabbitMQ/product';
 import { limitFunc } from '../middleware/prelimitReq';
 
 const port = normalizePort(process.env.PORT || Config.baseconfig.port);
